@@ -37,6 +37,27 @@ init python:
             trans = Transform(displ, xpan=(1.0 - PAN_XSHIFT/PAN_XSIZE)*360)
             render = renpy.render(trans, width, height, st, at)
 
+            ## ПРОКЛЯТО
+            ## (я в шоке, что у меня это вообще запустилось)
+            ## (по-хорошему надо через шейдеры, думаю?)
+            # n = 80
+            # amp = 0.15
+            # dx = SCREENW / n
+            # render = renpy.Render(width, height)
+            
+            # for k in range(n):
+            
+                # x0 = int(PAN_XSIZE-PAN_XSHIFT + k*dx) % PAN_XSIZE
+                # zz = 1.0 - (2*k/n-1)**2
+                # tt = Transform(Crop( (x0,0,int(dx)+1,SCREENH), self.child ), yzoom = 1.0 - amp*zz)
+                # cr = renpy.render(tt, width, height, st, at)
+                # render.blit(cr, (k*dx, SCREENH*0.5*amp*zz))
+                
+                # if x0 + dx > PAN_XSIZE:
+                    # tt = Transform(Crop( (x0-PAN_XSIZE,0,int(dx)+1,SCREENH), self.child ), yzoom = 1.0 - amp*zz)
+                    # cr = renpy.render(tt, width, height, st, at)
+                    # render.blit(cr, (k*dx, SCREENH*0.5*amp*zz))
+
             renpy.redraw(self, 0)
             return render
             
