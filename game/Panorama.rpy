@@ -24,11 +24,19 @@ init python:
             
             global PAN_XSIZE
             global PAN_XSHIFT
-            cr = renpy.render(self.child, width, height, st, at)
-            w, h = cr.get_size()
-            render = renpy.Render(w, h)
-            render.blit(cr, (PAN_XSHIFT, 0))
-            render.blit(cr, (PAN_XSHIFT-PAN_XSIZE, 0))
+
+            ## Первоначальный вариант
+            #cr = renpy.render(self.child, width, height, st, at)
+            #w, h = cr.get_size()
+            #render = renpy.Render(w, h)
+            #render.blit(cr, (PAN_XSHIFT, 0))
+            #render.blit(cr, (PAN_XSHIFT-PAN_XSIZE, 0))
+
+            ## Альтернативный вариант (вероятно, более эффективный?)
+            displ = Crop( (0,0,PAN_XSIZE,SCREENH), self.child ) # Нужно зафиксировать размер; возможно, есть еще способы
+            trans = Transform(displ, xpan=(1.0 - PAN_XSHIFT/PAN_XSIZE)*360)
+            render = renpy.render(trans, width, height, st, at)
+
             renpy.redraw(self, 0)
             return render
             
