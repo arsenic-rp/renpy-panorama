@@ -1,13 +1,18 @@
-﻿define e = Character('Эйлин', color="#c8ffc8")
+init python:
+    _game_menu_screen = "preferences"
+
+define e = Character('Эйлин', color="#c8ffc8")
 
 define audio.rain    = "<from 18 to 38>audio/rain.mp3"
 define audio.thunder = "audio/thunder.mp3"
 
 ## Эффект грома
 
+default LIGHTNING_ALPHA = 0.0
 init python:
     
     class LightningController(renpy.Displayable):
+    
         def __init__(self):
             super(renpy.Displayable,self).__init__()
             self.alpha = 0.0
@@ -49,6 +54,9 @@ init python:
                 
                 renpy.redraw(self, 1/60)
             
+            global LIGHTNING_ALPHA
+            LIGHTNING_ALPHA = self.alpha
+            
             return render
             
         def trigger(self):
@@ -60,7 +68,8 @@ init python:
             return []
             
         def tfunction(self, displ, st, at):
-            displ.alpha = self.alpha
+            global LIGHTNING_ALPHA
+            displ.alpha = LIGHTNING_ALPHA
             return 1/60
 
         def tie(self):
@@ -120,6 +129,8 @@ label start:
     play music rain fadein 4.0
     
     scene
+
+    show black onlayer background
 
     show room onlayer panorama zorder 0:
         align (0.0, 1.0)
